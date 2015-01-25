@@ -2,7 +2,7 @@ Simple Google reCAPTCHA FormType and Validator Component for Symfony2 applicatio
 ================================================
 
 Really light and simple reCAPTCHA component for Symfony Frameworks,
-it's not a Bundle, you can reconfigure all components how do you like.
+it's not a Bundle, you can reconfigure all components whatever you like.
 
 You can find full documentation about Google reCAPTCHA API v2 [here](http://developers.google.com/recaptcha/intro).
 
@@ -19,6 +19,8 @@ Add next lines to your composer.json file:
     }
 }
 ```
+
+To use this package with php version ~ 5.3 use version ~ 1.0
 
 Usage Example
 -------------
@@ -83,7 +85,7 @@ Next step, you need to add form_theme to your form view, it seems like that:
 {% endblock %}
 ```
 
-If you need to customize from widget, keep free to change template in %kernel_root%/Resources/DS/ReCaptcha/views/form_div_layout.twig
+If you need to customize from widget, feel free to change template in %kernel_root%/Resources/DS/ReCaptcha/views/form_div_layout.twig
 
 Copyright
 ---------
