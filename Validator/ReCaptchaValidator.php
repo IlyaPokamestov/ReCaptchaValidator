@@ -10,7 +10,7 @@
 
 namespace DS\Component\ReCaptcha\Validator;
 
-use GuzzleHttp\Client;
+use Guzzle\Http\Client;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Validator\Constraint;
 use Symfony\Component\Validator\ConstraintValidator;
@@ -41,7 +41,8 @@ class ReCaptchaValidator extends ConstraintValidator
 		if($request->get('g-recaptcha-response', false))
 		{
 			$client = new Client();
-			$response =  $client->get(sprintf(self::SITE_VERIFY_URL,$constraint->getPrivateKey(),$request->get('g-recaptcha-response', ''),$request->getClientIp()));
+			$guzzleRequest = $client->get(sprintf(self::SITE_VERIFY_URL, $constraint->getPrivateKey(), $request->get('g-recaptcha-response', ''), $request->getClientIp()));
+			$response = $guzzleRequest->send();
 			$jsonResponse = $response->json();
 			if(!(isset($jsonResponse['success']) && $jsonResponse['success']))
 			{
