@@ -1,0 +1,36 @@
+{
+    "name": "dario_swain/ds-recaptcha",
+    "type": "library",
+    "description": "Google reCaptcha FormType and Validator for Symfony applications.",
+    "keywords": ["reCaptcha", "captcha", "security", "symfony", "form", "validator"],
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Ilya Pokamestov",
+            "homepage": "http://github.com/DarioSwain"
+        }
+    ],
+    "require": {
+        "php": ">=5.4",
+        "guzzlehttp/guzzle": "5.1.0"
+    },
+    "scripts": {
+        "post-install-cmd": [
+            "DS\\Component\\ReCaptcha\\Composer\\ScriptHandler::replaceViews"
+        ],
+        "post-update-cmd": [
+            "DS\\Component\\ReCaptcha\\Composer\\ScriptHandler::replaceViews"
+        ]
+    },
+    "config": {
+        "bin-dir": "bin"
+    },
+    "autoload": {
+        "psr-4": { "DS\\Component\\ReCaptcha\\": "" }
+    },
+    "extra": {
+        "branch-alias": {
+            "dev-master": "master"
+        }
+    }
+}
