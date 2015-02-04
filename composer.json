@@ -10,9 +10,26 @@
             "homepage": "http://github.com/DarioSwain"
         }
     ],
+    "repositories": [
+        {
+            "type":"package",
+            "package": {
+                "name": "google/ReCAPTCHA",
+                "version":"dev-master",
+                "source": {
+                    "url": "https://github.com/google/ReCAPTCHA.git",
+                    "type": "git",
+                    "reference":"master"
+                },
+                "autoload": {
+                    "files": ["php/recaptchalib.php"]
+                }
+            }
+        }
+    ],
     "require": {
         "php": ">=5.3.3",
-        "guzzlehttp/guzzle": "3.8.*"
+        "google/ReCAPTCHA": "dev-master"
     },
     "scripts": {
         "post-install-cmd": [

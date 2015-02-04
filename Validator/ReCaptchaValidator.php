@@ -10,7 +10,6 @@
 
 namespace DS\Component\ReCaptcha\Validator;
 
-use Guzzle\Http\Client;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Validator\Constraint;
 use Symfony\Component\Validator\ConstraintValidator;
@@ -23,7 +22,21 @@ use Symfony\Component\Validator\Exception\InvalidArgumentException;
  */
 class ReCaptchaValidator extends ConstraintValidator
 {
-	const SITE_VERIFY_URL = 'https://www.google.com/recaptcha/api/siteverify?secret=%s&response=%s&remoteip=%s';
+	/** @var Request */
+	protected $request;
+	/** @var  string */
+	protected $privateKey;
+	/** @var string */
+
+	/**
+	 * @param Request $request
+	 * @param string $privateKey
+	 */
+	public function __construct(Request $request, $privateKey)
+	{
+		$this->request = $request;
+		$this->privateKey = $privateKey;
+	}
 
 	/**
 	 * {@inheritdoc}
@@ -35,16 +48,11 @@ class ReCaptchaValidator extends ConstraintValidator
 			throw new InvalidArgumentException('Use ReCaptchaConstraint for ReCaptchaValidator.');
 		}
 
-		/** @var Request $request */
-		$request = $constraint->getRequest();
-
-		if($request->get('g-recaptcha-response', false))
+		if($this->request->get('g-recaptcha-response', false))
 		{
-			$client = new Client();
-			$guzzleRequest = $client->get(sprintf(self::SITE_VERIFY_URL, $constraint->getPrivateKey(), $request->get('g-recaptcha-response', ''), $request->getClientIp()));
-			$response = $guzzleRequest->send();
-			$jsonResponse = $response->json();
-			if(!(isset($jsonResponse['success']) && $jsonResponse['success']))
+			$reCaptcha = new \ReCaptcha($this->privateKey);
+			$response = $reCaptcha->verifyResponse($this->request->getClientIp(), $this->request->get('g-recaptcha-response', false));
+			if(!$response->success)
 			{
 				$this->context->addViolation($constraint->message);
 			}
