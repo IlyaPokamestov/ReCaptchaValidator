@@ -25,6 +25,6 @@ class ReCaptchaConstraint extends Constraint
 	/** @return string */
 	public function validatedBy()
 	{
-		return 'ds.re_captcha_validator';
+		return 'ds_re_captcha.validator';
 	}
 }

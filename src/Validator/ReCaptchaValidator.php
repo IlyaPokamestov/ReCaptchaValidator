@@ -10,6 +10,7 @@
 
 namespace DS\Component\ReCaptcha\Validator;
 
+use DS\Library\ReCaptcha\ReCaptcha;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Validator\Constraint;
 use Symfony\Component\Validator\ConstraintValidator;
@@ -50,9 +51,9 @@ class ReCaptchaValidator extends ConstraintValidator
 
 		if($this->request->get('g-recaptcha-response', false))
 		{
-			$reCaptcha = new \ReCaptcha($this->privateKey);
-			$response = $reCaptcha->verifyResponse($this->request->getClientIp(), $this->request->get('g-recaptcha-response', false));
-			if(!$response->success)
+			$reCaptcha = new ReCaptcha($this->privateKey, $this->request->getClientIp(), $this->request->get('g-recaptcha-response', false));
+			$response = $reCaptcha->buildRequest()->send();
+			if(!$response->isSuccess())
 			{
 				$this->context->addViolation($constraint->message);
 			}

@@ -15,7 +15,7 @@ Add next lines to your composer.json file:
 ``` json
 {
     "require": {
-        "dario_swain/ds-recaptcha":                 "~1.0"
+        "dario_swain/re-captcha-validator": "dev-master"
     }
 }
 ```
