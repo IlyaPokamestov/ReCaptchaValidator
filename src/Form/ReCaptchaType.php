@@ -1,6 +1,6 @@
 <?php
 /*
-* This file is part of the DSReCaptcha Component.
+* This file is part of the ReCaptcha Validator Component.
 *
 * (c) Ilya Pokamestov
 *
@@ -8,9 +8,9 @@
 * file that was distributed with this source code.
 */
 
-namespace DS\Component\ReCaptcha\Form;
+namespace DS\Component\ReCaptchaValidator\Form;
 
-use DS\Component\ReCaptcha\Validator\ReCaptchaConstraint;
+use DS\Component\ReCaptchaValidator\Validator\ReCaptchaConstraint;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Exception\InvalidConfigurationException;
 use Symfony\Component\Form\FormView;

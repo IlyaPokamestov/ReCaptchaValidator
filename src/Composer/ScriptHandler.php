@@ -1,6 +1,6 @@
 <?php
 /*
-* This file is part of the DSReCaptcha Component.
+* This file is part of the ReCaptcha Validator Component.
 *
 * (c) Ilya Pokamestov
 *
@@ -8,7 +8,7 @@
 * file that was distributed with this source code.
 */
 
-namespace DS\Component\ReCaptcha\Composer;
+namespace DS\Component\ReCaptchaValidator\Composer;
 
 use Symfony\Component\Filesystem\Filesystem;
 use Composer\Script\CommandEvent;

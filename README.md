@@ -16,7 +16,15 @@ Add next lines to your composer.json file:
 {
     "require": {
         "dario_swain/re-captcha-validator": "dev-master"
-    }
+    },
+    "scripts": {
+        "post-install-cmd": [
+            "DS\\Component\\ReCaptchaValidator\\Composer\\ScriptHandler::replaceViews"
+        ],
+        "post-update-cmd": [
+            "DS\\Component\\ReCaptchaValidator\\Composer\\ScriptHandler::replaceViews"
+        ]
+    },
 }
 ```
 
@@ -33,7 +41,7 @@ parameters:
 
 services:
     ds.form.type.recaptcha:
-            class: DS\Component\ReCaptcha\Form\ReCaptchaType
+            class: DS\Component\ReCaptchaValidator\Form\ReCaptchaType
             arguments: ['@request_stack', %ds_recaptcha_public_key%, %ds_recaptcha_private_key%, %locale%]
             tags:
                 - { name: form.type, alias: ds_recaptcha }

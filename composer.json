@@ -20,22 +20,14 @@
         "phpunit/phpunit": "~4.0",
         "squizlabs/php_codesniffer": "~2.0"
     },
-    "scripts": {
-        "post-install-cmd": [
-            "DS\\Component\\ReCaptcha\\Composer\\ScriptHandler::replaceViews"
-        ],
-        "post-update-cmd": [
-            "DS\\Component\\ReCaptcha\\Composer\\ScriptHandler::replaceViews"
-        ]
-    },
     "autoload": {
         "psr-4": {
-            "DS\\Component\\ReCaptcha\\": "src"
+            "DS\\Component\\ReCaptchaValidator\\": "src"
         }
     },
     "autoload-dev": {
         "psr-4": {
-            "DS\\Component\\ReCaptcha\\Tests\\": "tests"
+            "DS\\Component\\ReCaptchaValidator\\Tests\\": "tests"
         }
     },
     "extra": {
