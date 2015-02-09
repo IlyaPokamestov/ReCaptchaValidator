@@ -1,6 +1,6 @@
 <?php
 /*
-* This file is part of the DSReCaptcha Component.
+* This file is part of the ReCaptcha Validator Component.
 *
 * (c) Ilya Pokamestov
 *
@@ -8,15 +8,13 @@
 * file that was distributed with this source code.
 */
 
-namespace DS\Component\ReCaptcha\Form;
+namespace DS\Component\ReCaptchaValidator\Form;
 
-use DS\Component\ReCaptcha\Validator\ReCaptchaConstraint;
+use DS\Component\ReCaptchaValidator\Validator\ReCaptchaConstraint;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Exception\InvalidConfigurationException;
 use Symfony\Component\Form\FormView;
 use Symfony\Component\Form\FormInterface;
-use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\Component\Intl\Locale\Locale;
 use Symfony\Component\OptionsResolver\OptionsResolverInterface;
 
@@ -32,21 +30,16 @@ class ReCaptchaType extends AbstractType
 	/** @var  string */
     protected $publicKey;
 	/** @var  string */
-    protected $privateKey;
-	/** @var  string */
 	protected $locale;
-	/** @var  Request */
-	protected $request;
 
-	public function __construct(RequestStack $requestStack, $publicKey, $privateKey, $locale = null)
+	public function __construct($publicKey, $locale = null)
 	{
-		if (empty($publicKey) || empty($privateKey)) {
-            throw new InvalidConfigurationException('The parameters "ds_recaptcha_public_key" and "ds_recaptcha_private_key" must be configured.');
+		if(null === $publicKey)
+		{
+            throw new InvalidConfigurationException('The parameters "public_key" must be configured.');
         }
 
 		$this->publicKey = $publicKey;
-		$this->privateKey = $privateKey;
-		$this->request = $requestStack->getCurrentRequest();
 
 		if(null !== $locale)
 		{
@@ -66,7 +59,7 @@ class ReCaptchaType extends AbstractType
         $view->vars = array_replace($view->vars, array(
             'public_key' => $this->publicKey,
 			'lang' => $this->locale,
-			'js_api_url' => self::JS_API_URL,
+			'js_api_url' => self::JS_API_URL
         ));
     }
 
@@ -76,7 +69,7 @@ class ReCaptchaType extends AbstractType
     public function setDefaultOptions(OptionsResolverInterface $resolver)
     {
 		$resolver->setDefaults(array(
-			'constraints' => array(new ReCaptchaConstraint(null, $this->request, $this->privateKey),),
+			'constraints' => array(new ReCaptchaConstraint())
 		));
     }
 
@@ -85,6 +78,6 @@ class ReCaptchaType extends AbstractType
      */
     public function getName()
     {
-        return 'ds_recaptcha';
+        return 'ds_re_captcha';
     }
 }

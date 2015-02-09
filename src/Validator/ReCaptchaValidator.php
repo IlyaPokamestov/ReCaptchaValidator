@@ -1,6 +1,6 @@
 <?php
 /*
-* This file is part of the DSReCaptcha Component.
+* This file is part of the ReCaptcha Validator Component.
 *
 * (c) Ilya Pokamestov
 *
@@ -8,9 +8,9 @@
 * file that was distributed with this source code.
 */
 
-namespace DS\Component\ReCaptcha\Validator;
+namespace DS\Component\ReCaptchaValidator\Validator;
 
-use GuzzleHttp\Client;
+use DS\Library\ReCaptcha\ReCaptcha;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Validator\Constraint;
 use Symfony\Component\Validator\ConstraintValidator;
@@ -23,7 +23,21 @@ use Symfony\Component\Validator\Exception\InvalidArgumentException;
  */
 class ReCaptchaValidator extends ConstraintValidator
 {
-	const SITE_VERIFY_URL = 'https://www.google.com/recaptcha/api/siteverify?secret=%s&response=%s&remoteip=%s';
+	/** @var Request */
+	protected $request;
+	/** @var  string */
+	protected $privateKey;
+	/** @var string */
+
+	/**
+	 * @param Request $request
+	 * @param string $privateKey
+	 */
+	public function __construct(Request $request, $privateKey)
+	{
+		$this->request = $request;
+		$this->privateKey = $privateKey;
+	}
 
 	/**
 	 * {@inheritdoc}
@@ -35,15 +49,11 @@ class ReCaptchaValidator extends ConstraintValidator
 			throw new InvalidArgumentException('Use ReCaptchaConstraint for ReCaptchaValidator.');
 		}
 
-		/** @var Request $request */
-		$request = $constraint->getRequest();
-
-		if($request->get('g-recaptcha-response', false))
+		if($this->request->get('g-recaptcha-response', false))
 		{
-			$client = new Client();
-			$response =  $client->get(sprintf(self::SITE_VERIFY_URL,$constraint->getPrivateKey(),$request->get('g-recaptcha-response', ''),$request->getClientIp()));
-			$jsonResponse = $response->json();
-			if(!(isset($jsonResponse['success']) && $jsonResponse['success']))
+			$reCaptcha = new ReCaptcha($this->privateKey, $this->request->getClientIp(), $this->request->get('g-recaptcha-response', false));
+			$response = $reCaptcha->buildRequest()->send();
+			if(!$response->isSuccess())
 			{
 				$this->context->addViolation($constraint->message);
 			}
