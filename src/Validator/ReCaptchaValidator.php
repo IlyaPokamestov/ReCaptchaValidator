@@ -24,47 +24,46 @@ use Symfony\Component\Validator\Exception\InvalidArgumentException;
  */
 class ReCaptchaValidator extends ConstraintValidator
 {
-	/** @var Request */
-	protected $request;
-	/** @var  string */
-	protected $privateKey;
-	/** @var  DriverInterface */
-	protected $driver;
+    /** @var Request */
+    protected $request;
+    /** @var  string */
+    protected $privateKey;
+    /** @var  DriverInterface */
+    protected $driver;
 
-	/**
-	 * @param Request $request
-	 * @param string $privateKey
-	 * @param DriverInterface $driver
-	 */
-	public function __construct(Request $request, $privateKey, DriverInterface $driver = null)
-	{
-		$this->request = $request;
-		$this->privateKey = $privateKey;
-		$this->driver = $driver;
-	}
-
-	/**
-	 * {@inheritdoc}
-	 */
-	public function validate($value, Constraint $constraint)
+    /**
+     * @param Request $request
+     * @param string $privateKey
+     * @param DriverInterface $driver
+     */
+    public function __construct(Request $request, $privateKey, DriverInterface $driver = null)
     {
-		if(!($constraint instanceof ReCaptchaConstraint))
-		{
-			throw new InvalidArgumentException('Use ReCaptchaConstraint for ReCaptchaValidator.');
-		}
+        $this->request = $request;
+        $this->privateKey = $privateKey;
+        $this->driver = $driver;
+    }
 
-		if($this->request->get('g-recaptcha-response', false))
-		{
-			$reCaptcha = new ReCaptcha($this->privateKey, $this->request->getClientIp(), $this->request->get('g-recaptcha-response', false));
-			$response = $reCaptcha->buildRequest($this->driver)->send();
-			if(!$response->isSuccess())
-			{
-				$this->context->addViolation($constraint->message);
-			}
-		}
-		else
-		{
-			$this->context->addViolation($constraint->message);
-		}
+    /**
+     * {@inheritdoc}
+     */
+    public function validate($value, Constraint $constraint)
+    {
+        if (!($constraint instanceof ReCaptchaConstraint)) {
+            throw new InvalidArgumentException('Use ReCaptchaConstraint for ReCaptchaValidator.');
+        }
+
+        if ($this->request->get('g-recaptcha-response', false)) {
+            $reCaptcha = new ReCaptcha(
+                $this->privateKey,
+                $this->request->getClientIp(),
+                $this->request->get('g-recaptcha-response', false)
+            );
+            $response = $reCaptcha->buildRequest($this->driver)->send();
+            if (!$response->isSuccess()) {
+                $this->context->addViolation($constraint->message);
+            }
+        } else {
+            $this->context->addViolation($constraint->message);
+        }
     }
 }
