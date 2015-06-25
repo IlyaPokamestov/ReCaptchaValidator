@@ -19,12 +19,12 @@ use Symfony\Component\Validator\Constraint;
  */
 class ReCaptchaConstraint extends Constraint
 {
-	/** @var string */
-	public $message = 'ds.recaptcha.invalid';
+    /** @var string */
+    public $message = 'ds.recaptcha.invalid';
 
-	/** @return string */
-	public function validatedBy()
-	{
-		return 'ds_re_captcha.validator';
-	}
+    /** @return string */
+    public function validatedBy()
+    {
+        return 'ds_re_captcha.validator';
+    }
 }

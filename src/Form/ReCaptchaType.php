@@ -25,31 +25,27 @@ use Symfony\Component\OptionsResolver\OptionsResolverInterface;
  */
 class ReCaptchaType extends AbstractType
 {
-	const JS_API_URL = 'https://www.google.com/recaptcha/api.js';
+    const JS_API_URL = 'https://www.google.com/recaptcha/api.js';
 
-	/** @var  string */
+    /** @var  string */
     protected $publicKey;
-	/** @var  string */
-	protected $locale;
+    /** @var  string */
+    protected $locale;
 
-	public function __construct($publicKey, $locale = null)
-	{
-		if(null === $publicKey)
-		{
+    public function __construct($publicKey, $locale = null)
+    {
+        if (null === $publicKey) {
             throw new InvalidConfigurationException('The parameters "public_key" must be configured.');
         }
 
-		$this->publicKey = $publicKey;
+        $this->publicKey = $publicKey;
 
-		if(null !== $locale)
-		{
-			$this->locale = $locale;
-		}
-		else
-		{
-			$this->locale = Locale::getDefault();
-		}
-	}
+        if (null !== $locale) {
+            $this->locale = $locale;
+        } else {
+            $this->locale = Locale::getDefault();
+        }
+    }
 
     /**
      * {@inheritdoc}
@@ -58,8 +54,8 @@ class ReCaptchaType extends AbstractType
     {
         $view->vars = array_replace($view->vars, array(
             'public_key' => $this->publicKey,
-			'lang' => $this->locale,
-			'js_api_url' => self::JS_API_URL
+            'lang' => $this->locale,
+            'js_api_url' => self::JS_API_URL
         ));
     }
 
@@ -68,9 +64,9 @@ class ReCaptchaType extends AbstractType
      */
     public function setDefaultOptions(OptionsResolverInterface $resolver)
     {
-		$resolver->setDefaults(array(
-			'constraints' => array(new ReCaptchaConstraint())
-		));
+        $resolver->setDefaults(array(
+            'constraints' => array(new ReCaptchaConstraint())
+        ));
     }
 
     /**
