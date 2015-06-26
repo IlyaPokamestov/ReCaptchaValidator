@@ -1,6 +1,13 @@
 Simple Google reCAPTCHA FormType and Validator Component for Symfony2 applications
 ================================================
 
+[![SensioLabsInsight](https://insight.sensiolabs.com/projects/65416c79-2c76-4b1d-b490-6d0f57778337/big.png)](https://insight.sensiolabs.com/projects/65416c79-2c76-4b1d-b490-6d0f57778337)
+[![Latest Stable Version](https://poser.pugx.org/dario_swain/re-captcha-validator/v/stable)](https://packagist.org/packages/dario_swain/re-captcha-validator)
+[![Build Status](https://travis-ci.org/DarioSwain/ReCaptchaValidator.svg?branch=master)](https://travis-ci.org/DarioSwain/ReCaptchaValidator)
+[![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/DarioSwain/ReCaptchaValidator/badges/quality-score.png?b=master)](https://scrutinizer-ci.com/g/DarioSwain/ReCaptchaValidator/?branch=master)
+[![Coverage Status](https://coveralls.io/repos/DarioSwain/ReCaptchaValidator/badge.svg)](https://coveralls.io/r/DarioSwain/ReCaptchaValidator)
+[![License](https://poser.pugx.org/dario_swain/re-captcha-validator/license)](https://packagist.org/packages/dario_swain/re-captcha-validator)
+
 Really light and simple reCAPTCHA component for Symfony Frameworks,
 it's not a Bundle, you can reconfigure all components whatever you like.
 
