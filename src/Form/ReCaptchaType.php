@@ -74,6 +74,6 @@ class ReCaptchaType extends AbstractType
      */
     public function getName()
     {
-        return 'ds_re_captcha';
+        return 'ds_recaptcha';
     }
 }
