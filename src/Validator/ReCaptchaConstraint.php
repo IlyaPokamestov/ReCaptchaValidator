@@ -21,6 +21,8 @@ class ReCaptchaConstraint extends Constraint
 {
     /** @var string */
     public $message = 'ds.recaptcha.invalid';
+    /** @var bool $enabled */
+    public $enabled = true;
 
     /** @return string */
     public function validatedBy()

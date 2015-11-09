@@ -24,4 +24,10 @@ class ReCaptchaConstraintTest extends \PHPUnit_Framework_TestCase
         $constraint  = new ReCaptchaConstraint();
         $this->assertEquals('ds_re_captcha.validator', $constraint->validatedBy());
     }
+
+    public function testEnableOption()
+    {
+        $constraint  = new ReCaptchaConstraint();
+        $this->assertTrue($constraint->enabled);
+    }
 }

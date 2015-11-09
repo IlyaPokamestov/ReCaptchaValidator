@@ -30,17 +30,21 @@ class ReCaptchaValidator extends ConstraintValidator
     protected $privateKey;
     /** @var  DriverInterface */
     protected $driver;
+    /** @var bool */
+    protected $enabled;
 
     /**
      * @param Request $request
      * @param string $privateKey
      * @param DriverInterface $driver
+     * @param bool $enabled
      */
-    public function __construct(Request $request, $privateKey, DriverInterface $driver = null)
+    public function __construct(Request $request, $privateKey, DriverInterface $driver = null, $enabled = true)
     {
         $this->request = $request;
         $this->privateKey = $privateKey;
         $this->driver = $driver;
+        $this->enabled = $enabled;
     }
 
     /**
@@ -50,6 +54,10 @@ class ReCaptchaValidator extends ConstraintValidator
     {
         if (!($constraint instanceof ReCaptchaConstraint)) {
             throw new InvalidArgumentException('Use ReCaptchaConstraint for ReCaptchaValidator.');
+        }
+
+        if (false === $this->enabled || false === $constraint->enabled) {
+            return;
         }
 
         if ($this->request->get('g-recaptcha-response', false)) {
