@@ -67,7 +67,14 @@ class ReCaptchaTypeTest extends \PHPUnit_Framework_TestCase {
         $captchaType = new ReCaptchaType('test', 'test_loc');
         $resolver = new OptionsResolver();
         $this->assertEquals(array(), $resolver->getDefinedOptions());
-        $captchaType->setDefaultOptions($resolver);
+
+        // Prefer Symfony 2.7 API
+        if (method_exists($captchaType, 'configureOptions')) {
+            $captchaType->configureOptions($resolver);
+        } else {
+            $captchaType->setDefaultOptions($resolver);
+        }
+
         $this->assertArraySubset(array('constraints'), $resolver->getDefinedOptions());
     }
 }
