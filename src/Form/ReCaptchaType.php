@@ -16,6 +16,7 @@ use Symfony\Component\Form\Exception\InvalidConfigurationException;
 use Symfony\Component\Form\FormView;
 use Symfony\Component\Form\FormInterface;
 use Symfony\Component\Intl\Locale\Locale;
+use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\OptionsResolver\OptionsResolverInterface;
 
 /**
@@ -61,8 +62,18 @@ class ReCaptchaType extends AbstractType
 
     /**
      * {@inheritdoc}
+     *
+     * @deprecated Remove when dropping support for Symfony 2.6 and earlier
      */
     public function setDefaultOptions(OptionsResolverInterface $resolver)
+    {
+        $this->configureOptions($resolver);
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults(array(
             'constraints' => array(new ReCaptchaConstraint())
@@ -72,8 +83,18 @@ class ReCaptchaType extends AbstractType
     /**
      * {@inheritdoc}
      */
-    public function getName()
+    public function getBlockPrefix()
     {
         return 'ds_re_captcha';
+    }
+
+    /**
+     * {@inheritdoc}
+     *
+     * @deprecated Remove when dropping support for Symfony 2.7 and earlier
+     */
+    public function getName()
+    {
+        return $this->getBlockPrefix();
     }
 }
