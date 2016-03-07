@@ -13,6 +13,7 @@ namespace DS\Component\ReCaptchaValidator\Validator;
 use DS\Library\ReCaptcha\Http\Driver\DriverInterface;
 use DS\Library\ReCaptcha\ReCaptcha;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\Component\Validator\Constraint;
 use Symfony\Component\Validator\ConstraintValidator;
 use Symfony\Component\Validator\Exception\InvalidArgumentException;
@@ -34,14 +35,27 @@ class ReCaptchaValidator extends ConstraintValidator
     protected $enabled;
 
     /**
-     * @param Request $request
+     * @param Request|RequestStack $request
      * @param string $privateKey
      * @param DriverInterface $driver
      * @param bool $enabled
+     *
+     * @throws \InvalidArgumentException
      */
-    public function __construct(Request $request, $privateKey, DriverInterface $driver = null, $enabled = true)
+    public function __construct($request, $privateKey, DriverInterface $driver = null, $enabled = true)
     {
-        $this->request = $request;
+        // Typehint the $request argument for RequestStack when dropping support for Symfony 2.3
+        if ($request instanceof Request) {
+            $this->request = $request;
+        } elseif ($request instanceof RequestStack) {
+            $this->request = $request->getCurrentRequest();
+        } else {
+            throw new \InvalidArgumentException(
+                'Argument 1 should be an instance of Symfony\Component\HttpFoundation\Request or '
+                .'Symfony\Component\HttpFoundation\RequestStack'
+            );
+        }
+
         $this->privateKey = $privateKey;
         $this->driver = $driver;
         $this->enabled = $enabled;
