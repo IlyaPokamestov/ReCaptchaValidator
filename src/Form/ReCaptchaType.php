@@ -85,7 +85,7 @@ class ReCaptchaType extends AbstractType
      */
     public function getBlockPrefix()
     {
-        return 'ds_re_captcha';
+        return 'ds_recaptcha';
     }
 
     /**
