@@ -1,5 +1,5 @@
 {
-    "name": "dario_swain/re-captcha-validator",
+    "name": "poznet/re-captcha-validator",
     "type": "library",
     "description": "Google reCaptcha FormType and Validator for Symfony applications.",
     "keywords": ["reCaptcha", "captcha", "security", "symfony", "form", "validator"],
